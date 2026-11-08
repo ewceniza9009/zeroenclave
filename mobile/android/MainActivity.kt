@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContentView(webView)
-        webView.loadUrl("http://127.0.0.1:$serverPort/")
+        webView.loadUrl("http://localhost:$serverPort/")
 
         // Handle native back button navigation
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
