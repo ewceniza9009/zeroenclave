@@ -302,6 +302,43 @@ class MainActivity : AppCompatActivity() {
                 promptBiometricUnlock()
             }
         }
+
+        @JavascriptInterface
+        fun testBiometricPrompt() {
+            runOnUiThread {
+                promptBiometricTest()
+            }
+        }
+    }
+
+    private fun promptBiometricTest() {
+        val executor: Executor = ContextCompat.getMainExecutor(this)
+        val prompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                webView.evaluateJavascript("if (window.onBiometricTestSuccess) { window.onBiometricTestSuccess(); }", null)
+            }
+
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                if (errorCode != BiometricPrompt.ERROR_USER_CANCELED && errorCode != BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
+                    webView.evaluateJavascript("if (window.showToast) { window.showToast('$errString'); }", null)
+                }
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                webView.evaluateJavascript("if (window.showToast) { window.showToast('Fingerprint not recognized'); }", null)
+            }
+        })
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Register Android Biometrics")
+            .setSubtitle("Confirm your fingerprint or biometric credential")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        prompt.authenticate(promptInfo)
     }
 
     private fun promptBiometricUnlock() {
