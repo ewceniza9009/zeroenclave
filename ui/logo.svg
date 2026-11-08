@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="enclaveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="50%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E2433"/>
+      <stop offset="100%" stop-color="#0B0E14"/>
+    </linearGradient>
+    <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Enclave Rounded Squircle -->
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#bgGrad)" stroke="rgba(56,189,248,0.22)" stroke-width="2"/>
+
+  <!-- Outer Hexagonal Enclave Perimeter -->
+  <polygon points="64,20 102,42 102,86 64,108 26,86 26,42" fill="#111622" stroke="url(#enclaveGrad)" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- Inner Segmented Cyber Ring -->
+  <circle cx="64" cy="64" r="30" fill="none" stroke="rgba(56,189,248,0.18)" stroke-width="2" stroke-dasharray="5,4"/>
+
+  <!-- ZeroEnclave Stylized 'Z' + Slashed Zero Core -->
+  <path d="M47 45 L81 45 L47 83 L81 83" fill="none" stroke="url(#coreGrad)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+  <!-- Enclave Corner Nodes -->
+  <circle cx="64" cy="20" r="3" fill="#38BDF8"/>
+  <circle cx="102" cy="42" r="2.5" fill="#3B82F6"/>
+  <circle cx="102" cy="86" r="2.5" fill="#6366F1"/>
+  <circle cx="64" cy="108" r="3" fill="#38BDF8"/>
+  <circle cx="26" cy="86" r="2.5" fill="#3B82F6"/>
+  <circle cx="26" cy="42" r="2.5" fill="#06B6D4"/>
+</svg>
