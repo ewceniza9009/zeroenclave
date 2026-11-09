@@ -5668,36 +5668,64 @@ mark.cmd-match {
   color: #b45309;
 }
 
-/* Custom Combobox (Folder Dropdown consistent with Category Select) */
+/* Custom Combobox & Select (Identical arrow icon, size, stroke, alignment and placement) */
 .custom-combobox-wrap {
   position: relative;
   width: 100%;
+  display: flex;
+  align-items: center;
 }
 
+.custom-select-input,
 .custom-combobox-input {
+  width: 100%;
   padding-right: 36px !important;
 }
 
-.combobox-chevron-btn {
+.custom-select-input {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  cursor: pointer;
+}
+
+.custom-select-input::-ms-expand {
+  display: none !important;
+}
+
+.combobox-chevron-icon {
   position: absolute;
   top: 50%;
-  right: 6px;
+  right: 12px;
   transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-sm);
-  color: var(--text-tertiary);
-  cursor: pointer;
-  transition: all 0.15s ease;
+  color: var(--text-secondary);
+  pointer-events: none;
   padding: 0;
+  border: none;
+  background: transparent;
+  line-height: 1;
 }
 
-.combobox-chevron-btn:hover {
+.combobox-chevron-icon svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+button.combobox-chevron-btn.combobox-chevron-icon {
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+}
+
+button.combobox-chevron-btn.combobox-chevron-icon:hover {
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.08);
 }
@@ -5786,7 +5814,11 @@ mark.cmd-match {
   color: #2563EB !important;
 }
 
-[data-surface="light"] .combobox-chevron-btn:hover {
+[data-surface="light"] .combobox-chevron-icon {
+  color: #334155 !important;
+}
+
+[data-surface="light"] button.combobox-chevron-btn.combobox-chevron-icon:hover {
   background: rgba(15, 23, 42, 0.06) !important;
   color: #0F172A !important;
 }
