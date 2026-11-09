@@ -309,6 +309,33 @@ class MainActivity : AppCompatActivity() {
                 promptBiometricTest()
             }
         }
+
+        @JavascriptInterface
+        fun isAutofillServiceEnabled(): Boolean {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                val afm = getSystemService(android.view.autofill.AutofillManager::class.java)
+                return afm != null && afm.hasEnabledAutofillServices()
+            }
+            return false
+        }
+
+        @JavascriptInterface
+        fun requestAutofillService() {
+            runOnUiThread {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    try {
+                        val intent = Intent(android.provider.Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE).apply {
+                            data = Uri.parse("package:$packageName")
+                        }
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        try {
+                            startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
+                        } catch (_: Exception) {}
+                    }
+                }
+            }
+        }
     }
 
     private fun promptBiometricTest() {
