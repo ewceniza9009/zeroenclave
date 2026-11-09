@@ -5830,3 +5830,49 @@ button.combobox-chevron-btn.combobox-chevron-icon:hover {
 }
 
 
+
+/* Mermaid diagrams */
+.md-mermaid {
+  margin: 14px 0;
+  padding: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  text-align: center;
+  user-select: text;
+}
+
+.md-mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.md-mermaid-loading {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.md-mermaid-error {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  font-size: 12px;
+  color: #ef4444;
+}
+
+.md-mermaid-error span {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+[data-surface="light"] .md-mermaid {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+}
+
+[data-surface="light"] .md-mermaid-error {
+  color: #B91C1C;
+}
