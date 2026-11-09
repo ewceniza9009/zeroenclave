@@ -830,6 +830,14 @@ body {
   gap: 8px;
 }
 
+.detail-topbar-actions .action-btn-secondary,
+.detail-topbar-actions .action-btn-danger {
+  padding: 6px 12px;
+  min-height: 32px;
+  font-size: 12px;
+  gap: 6px;
+}
+
 .action-btn-secondary {
   background: var(--bg-card);
   border: 1px solid var(--border-medium);
@@ -1792,10 +1800,41 @@ body {
     flex-shrink: 0;
   }
 
+  .detail-topbar-actions .btn-label-text {
+    display: none !important;
+  }
+
   .detail-topbar-actions .action-btn-secondary,
   .detail-topbar-actions .action-btn-danger {
-    padding: 7px 11px;
-    font-size: 12px;
+    padding: 0 !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    min-width: 34px !important;
+    gap: 0 !important;
+    border-radius: var(--radius-md) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .detail-topbar-actions .action-btn-secondary svg,
+  .detail-topbar-actions .action-btn-danger svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .detail-topbar-actions #btnOpenItemHistory {
+    position: relative !important;
+  }
+
+  .detail-topbar-actions .history-count-pill {
+    position: absolute !important;
+    top: -4px !important;
+    right: -4px !important;
+    padding: 1px 4px !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
   }
 
   .detail-body {
@@ -1933,6 +1972,38 @@ body.mobile-layout .detail-topbar {
   flex-wrap: nowrap !important;
   gap: 8px !important;
   min-height: 54px !important;
+}
+body.mobile-layout .detail-topbar-actions .btn-label-text {
+  display: none !important;
+}
+body.mobile-layout .detail-topbar-actions .action-btn-secondary,
+body.mobile-layout .detail-topbar-actions .action-btn-danger {
+  padding: 0 !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  min-width: 34px !important;
+  gap: 0 !important;
+  border-radius: var(--radius-md) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+body.mobile-layout .detail-topbar-actions .action-btn-secondary svg,
+body.mobile-layout .detail-topbar-actions .action-btn-danger svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+body.mobile-layout .detail-topbar-actions #btnOpenItemHistory {
+  position: relative !important;
+}
+body.mobile-layout .detail-topbar-actions .history-count-pill {
+  position: absolute !important;
+  top: -4px !important;
+  right: -4px !important;
+  padding: 1px 4px !important;
+  font-size: 9px !important;
+  line-height: 1 !important;
 }
 body.mobile-layout .detail-body {
   padding: 14px 14px 36px !important;
@@ -3036,6 +3107,15 @@ mark.md-highlight {
   font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1.55;
+}
+
+.history-snapshot-card {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-primary);
+  word-break: break-word;
 }
 
 .diff-line {
@@ -4169,6 +4249,33 @@ html[data-surface="light"][data-accent="titanium"],
 [data-surface="light"] .history-diff-viewer {
   background: #FFFFFF !important;
   color: #0F172A !important;
+}
+
+[data-surface="light"] .history-snapshot-card {
+  background: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+  color: #0F172A !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-surface="light"] .history-field-diff-summary {
+  background: #FFFBEB !important;
+  border-bottom-color: #FDE68A !important;
+  color: #92400E !important;
+}
+
+[data-surface="light"] .diff-line-add {
+  background: #DCFCE7 !important;
+  color: #15803D !important;
+}
+
+[data-surface="light"] .diff-line-del {
+  background: #FEE2E2 !important;
+  color: #B91C1C !important;
+}
+
+[data-surface="light"] .diff-line-ctx {
+  color: #475569 !important;
 }
 
 /* Markdown Note Studio in Clean Light Mode */
