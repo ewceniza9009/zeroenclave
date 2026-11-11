@@ -32,6 +32,7 @@ import (
 
 	"1vault/internal/crypto"
 	"1vault/internal/server"
+	vaultsync "1vault/internal/sync"
 	"1vault/internal/vault"
 	"1vault/web"
 )
@@ -92,6 +93,9 @@ func Java_com_onevault_app_MainActivity_startVaultServer(env *C.JNIEnv, thiz C.j
 	go func() {
 		_ = httpServer.Serve(listener)
 	}()
+
+	// Start LAN peer discovery service
+	_ = vaultsync.GetDiscoveryService(serverPort)
 
 	return C.jint(serverPort)
 }
