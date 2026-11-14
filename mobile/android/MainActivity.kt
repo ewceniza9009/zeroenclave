@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.view.WindowManager
 import android.webkit.JavascriptInterface
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private var serverPort: Int = -1
+    private var multicastLock: WifiManager.MulticastLock? = null
 
     private var fileUploadCallback: ValueCallback<Array<Uri>>? = null
 
@@ -76,6 +78,16 @@ class MainActivity : AppCompatActivity() {
             navigationBarColor = Color.parseColor("#131417")
         }
 
+        // Allow receiving LAN UDP broadcasts (relay auto-discovery beacons)
+        try {
+            val wifi = applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager
+            multicastLock = wifi?.createMulticastLock("zeroenclave-discovery")?.apply {
+                setReferenceCounted(false)
+                acquire()
+            }
+        } catch (_: Exception) {
+        }
+
         // Start internal Go vault server
         val vaultDir = filesDir.absolutePath
         serverPort = startVaultServer(vaultDir)
@@ -102,8 +114,8 @@ class MainActivity : AppCompatActivity() {
                 javaScriptEnabled = true
                 domStorageEnabled = true
                 databaseEnabled = true
-                useWideViewPort = true
-                loadWithOverviewMode = true
+                useWideViewPort = false
+                loadWithOverviewMode = false
                 setSupportZoom(false)
                 displayZoomControls = false
                 cacheMode = WebSettings.LOAD_NO_CACHE
@@ -214,6 +226,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        try {
+            multicastLock?.let { if (it.isHeld) it.release() }
+        } catch (_: Exception) {
+        }
         stopVaultServer()
     }
 

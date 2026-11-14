@@ -4,15 +4,61 @@
 
 # ZeroEnclave — Zero-Knowledge Password & Media Enclave (Windows & Android)
 
-**ZeroEnclave** (`v1.4.3`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
+**ZeroEnclave** (`v1.4.6`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
 
-## What's New in v1.4.3
+## What's New in v1.4.6
+
+* **Native Windows System Tray & Background Enclave:**
+  * Closing the desktop window now minimizes cleanly to the Windows System Tray, keeping the embedded E2EE sync relay (`:8443`), LAN discovery (`:8444`), and browser extension companion (`:51892`) alive in the background.
+  * Dynamic right-click tray menu with **Open ZeroEnclave**, live **Vault: Unlocked / Locked** status, 1-click **Lock Vault & Vanish Drive**, **Sync Now**, **Minimize to Tray on Close** toggle, and **Quit ZeroEnclave**.
+  * Supports `--tray` / `--minimized` startup flags and automatic `TaskbarCreated` icon recovery if Windows Explorer restarts.
+* **Single-Instance Window Restore:**
+  * Launching `ZeroEnclave.exe` while an instance is already running in the tray automatically restores and focuses the existing window instead of opening a duplicate process.
+* **Login & Sync UI Reliability Fixes:**
+  * Stopped the background vault watcher immediately upon lock so typing on the unlock screen is never cleared or interrupted.
+  * Instant auto-save and polling guard for File & Media Sync Mode selection, plus high-contrast light-mode styling.
+
+<details>
+<summary>Previous release: v1.4.5</summary>
+
+* **3-Mode File & Media Sync Engine:**
+  * **Full Offline Enclave Mirror (`mirror`)** *(Default)*: Replicates every encrypted 64 KB chunked `1VBLOB` across the relay and all paired devices in the background for 100% offline access anywhere.
+  * **On-Demand / Lazy Sync (`ondemand`)**: Syncs encrypted blobs to the relay once; other paired devices (e.g. phones with limited storage) only download and cache an encrypted file when you preview, view, or export it.
+  * **Direct P2P / Blip Mode (`p2p`)**: Lightweight vault metadata and 256-bit AES-256-GCM File Encryption Keys (`FEK`) sync via the relay, while large encrypted `.blob` files stream directly peer-to-peer between online LAN devices with zero relay storage consumption.
+* **Resumable Chunked Transfers & Range Support:**
+  * HTTP 206 `Range` and persistent `.part` files ensure downloads resume at the exact byte boundary if Wi-Fi drops mid-transfer.
+  * 4 MB chunked resumable uploads via `PATCH /v1/sync/{bucket}/blobs/{id}` with `X-Upload-Offset` and `X-Upload-Complete` validation.
+* **Local Cache Presence & 1-Click Fetching:**
+  * Vault attachment cards display live cache tags (**✓ Cached Locally** or **☁ On-Demand / P2P**) with an instant **Fetch** button to stream and cache missing blobs on demand.
+  * Zero-copy storage optimization serves directly from local attachment blobs when running the embedded relay on the host PC.
+
+</details>
+
+<details>
+<summary>Previous release: v1.4.4</summary>
+
+* **Intelligent SSH Previews Without Username:**
+  * SSH and Server items without an explicit username now display smart, contextual previews (Host/Bastion IP:port, public key comments, key algorithm, or SHA-256 fingerprint) across the list and Command Palette (`Ctrl+K`) instead of an empty dash (`"—"`).
+  * Brand-new dedicated **SSH Server & Key Details** panel in the item detail view featuring terminal-ready quick connect commands (`ssh [-p port] [user@]host`), unmasked SHA-256 fingerprints, 1-click **Copy Public Key** (`~/.ssh/authorized_keys`), **Copy Private Key**, and `+ Add User` button.
+* **Auto-Refresh Preview on Trash & Permanent Delete:**
+  * Soft-deleting an item to Trash or permanently deleting an item now instantly updates the detail panel, clearing stale records and automatically selecting the next active item on desktop or resetting cleanly on mobile.
+* **Vault Refresh Controls & In-App Shortcuts:**
+  * 1-click **Refresh** button added directly on the sidebar "All Items" row with interactive spring hover and 360° spin animation.
+  * Dedicated **Refresh Items** icon button in the items column header toolbar.
+  * In-app <kbd>Ctrl</kbd>+<kbd>R</kbd> and <kbd>F5</kbd> shortcuts trigger a smooth in-app vault reload without reloading the whole browser.
+
+</details>
+
+<details>
+<summary>Previous release: v1.4.3</summary>
 
 * **Relay Auto-Discovery (IP changes no longer break sync):**
   * When the saved relay address stops responding (e.g. your router gave the relay PC a new IP), the app searches your LAN, finds the relay again, verifies it, and updates the saved Relay URL automatically on Windows and Android.
   * Devices of the same vault advertise a hosted relay through encrypted-bucket-scoped UDP beacons; the relay host also self-heals to its own current LAN address.
 * **Mermaid Diagrams in Notes:** write a ```mermaid``` block (or use the new toolbar button) to render flowcharts, sequence/ER/state diagrams, bundled offline and theme-aware.
 * **Fixes:** duplicate items created on save, light-mode highlight/separator visibility, consistent Folder/Category combobox, Save/Cancel moved to the modal header, Android portrait viewport.
+
+</details>
 
 <details>
 <summary>Previous release: v1.4.1</summary>
@@ -196,12 +242,12 @@ ZeroEnclave gives you two flexible options for sync relaying:
 
 ---
 
-## Downloads & Installation (v1.4.3)
+## Downloads & Installation (v1.4.6)
 
 Pre-built binaries and packages are available under [Releases](https://github.com/ewceniza9009/1Vault/releases):
 
 ### 1. Windows Installer (Recommended)
-Download [`ZeroEnclave-Setup-v1.4.3.exe`](https://github.com/ewceniza9009/1Vault/releases/latest):
+Download [`ZeroEnclave-Setup-v1.4.6.exe`](https://github.com/ewceniza9009/1Vault/releases/latest):
 * **One-Click Install:** Installs without requiring Administrator privileges and preserves existing vault data seamlessly.
 * **Shortcuts:** Automatically creates Start Menu and Desktop shortcuts (`ZeroEnclave`) with the hexagonal ZeroEnclave emblem.
 * **Clean Uninstall:** Registered in Windows **Settings > Apps & Features**.
@@ -210,7 +256,7 @@ Download [`ZeroEnclave-Setup-v1.4.3.exe`](https://github.com/ewceniza9009/1Vault
 Download [`ZeroEnclave.exe`](https://github.com/ewceniza9009/1Vault/releases/latest) to run directly without installing.
 
 ### 3. Android Application (APK)
-Download [`ZeroEnclave-v1.4.3.apk`](https://github.com/ewceniza9009/1Vault/releases/latest):
+Download [`ZeroEnclave-v1.4.6.apk`](https://github.com/ewceniza9009/1Vault/releases/latest):
 * Production signed Release APK built with full optimization.
 * Powered by the embedded Go cryptographic & `1VBLOB` streaming core compiled via Android NDK CGO.
 * Supports Android 8.0+ (`arm64-v8a` and `x86_64`).
@@ -257,5 +303,5 @@ Copy-Item "android/app/src/main/jniLibs/x86_64/libonevault.so" "android/app/src/
 
 # 2. Build Release APK with Gradle
 cmd /c "cd android && gradlew.bat assembleRelease"
-# Output artifact: android/app/build/outputs/apk/release/ZeroEnclave-v1.4.3.apk
+# Output artifact: android/app/build/outputs/apk/release/ZeroEnclave-v1.4.6.apk
 ```
