@@ -17,6 +17,9 @@
 * **Login & Sync UI Reliability Fixes:**
   * Stopped the background vault watcher immediately upon lock so typing on the unlock screen is never cleared or interrupted.
   * Instant auto-save and polling guard for File & Media Sync Mode selection, plus high-contrast light-mode styling.
+* **Browser Extension Smart Save, Deduplication & Locked-Vault Unlock:**
+  * Detects whether submitted login/registration credentials are already saved in ZeroEnclave (`POST /api/extension/check`) — suppresses duplicate save prompts and switches to **Update Password** when an existing account's password changes.
+  * Added inline **Unlock & Save** in the in-page banner, a Master Password / Biometric unlock card inside the extension popup, and an offline `chrome.storage.local` queue that auto-encrypts into the vault as soon as ZeroEnclave unlocks.
 
 <details>
 <summary>Previous release: v1.4.5</summary>
