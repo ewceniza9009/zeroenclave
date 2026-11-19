@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="web/static/logo.svg" width="96" height="96" alt="ZeroEnclave Logo">
-</p>
-
 # ZeroEnclave — Zero-Knowledge Password & Media Enclave (Windows & Android)
 
 **ZeroEnclave** (`v1.4.6`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
