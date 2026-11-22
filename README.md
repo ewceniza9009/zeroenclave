@@ -1,8 +1,21 @@
+
 # ZeroEnclave — Zero-Knowledge Password & Media Enclave (Windows & Android)
 
-**ZeroEnclave** (`v1.4.7`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
+**ZeroEnclave** (`v1.5.0`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
 
-## What's New in v1.4.7
+## What's New in v1.5.0
+
+* **Configs & `.env` / `appsettings.json` Studio:**
+  * Added a dedicated **Configs & `.env`** vault category (`env_config`) with metadata for **Format** (`.env`, `appsettings.json`, JSON, YAML, TOML, XML, INI), **Environment** (`local`, `dev`, `staging`, `prod`), and **Target Filename**.
+  * Interactive **Config & Secrets Studio** detail view featuring a searchable Secret Table, automatic secret masking, 1-click Reveal / Copy Value / Copy `KEY=VAL`, live `.env` <-> `appsettings.json` (`__` nesting) conversion, local file import / drag-and-drop, raw view toggle, and file download.
+* **Upgraded Developer CLI (`run` / `pull` / `push` / `list`):**
+  * Inject both `.env` files and nested `appsettings.json` hierarchies (`Section__SubSection__Key`) straight into subprocesses via `ZeroEnclave run`, plus `ZeroEnclave pull`, `ZeroEnclave push`, and `ZeroEnclave list`.
+  * Windows installer automatically registers the ZeroEnclave install folder in User `PATH` so `ZeroEnclave` works from any terminal.
+* **High-UX Sidebar Redesign:**
+  * Pinned 2×2 Quick Tiles (`All Items`, `Favorites`, `Watchtower`, `Trash`), streamlined **Vault** category list, collapsible **Folders & Tags** pill cloud, and docked footer with `Drive Z:`, `Sync`, compact utility bar, and `Lock`.
+
+<details>
+<summary>Previous release: v1.4.7</summary>
 
 * **Security & Storage Hardening:**
   * Replaced wildcard CORS (`Access-Control-Allow-Origin: *`) with strict loopback (`localhost` / `127.0.0.1`) and browser-extension Origin + `Sec-Fetch-Site` enforcement, constant-time `X-Session-Token` validation, and authenticated `/api/reset`.
@@ -13,6 +26,8 @@
   * Removed duplicate unused native `.so` copies (`lib1vault.so`) so the signed release APK ships only `libonevault.so` per ABI (`arm64-v8a` & `x86_64`).
 * **Browser Extension & Notes Polish:**
   * Native desktop launch bridge (`zeroenclave://open` + `/api/app/show` + `launcher.html`), focus/hover-only zero-ghost `Z` badges, strict auth-field filtering (no badges on API key/model/search inputs), inline dropdown unlock, and fixed multiline/quoted Secure Notes copy.
+
+</details>
 
 <details>
 <summary>Previous release: v1.4.6</summary>
@@ -256,13 +271,14 @@ ZeroEnclave gives you two flexible options for sync relaying:
 
 ---
 
-## Downloads & Installation (v1.4.7)
+## Downloads & Installation (v1.5.0)
 
 Pre-built binaries and packages are available under [Releases](https://github.com/ewceniza9009/1Vault/releases):
 
 ### 1. Windows Installer (Recommended)
-Download [`ZeroEnclave-Setup-v1.4.7.exe`](https://github.com/ewceniza9009/1Vault/releases/latest):
+Download [`ZeroEnclave-Setup-v1.5.0.exe`](https://github.com/ewceniza9009/1Vault/releases/latest):
 * **One-Click Install:** Installs without requiring Administrator privileges and preserves existing vault data seamlessly.
+* **CLI PATH Integration:** Automatically registers the install directory in User `PATH` so `ZeroEnclave run` / `pull` / `push` / `list` work from any terminal.
 * **Shortcuts:** Automatically creates Start Menu and Desktop shortcuts (`ZeroEnclave`) with the hexagonal ZeroEnclave emblem.
 * **Clean Uninstall:** Registered in Windows **Settings > Apps & Features**.
 
@@ -270,7 +286,7 @@ Download [`ZeroEnclave-Setup-v1.4.7.exe`](https://github.com/ewceniza9009/1Vault
 Download [`ZeroEnclave.exe`](https://github.com/ewceniza9009/1Vault/releases/latest) to run directly without installing.
 
 ### 3. Android Application (APK)
-Download [`ZeroEnclave-v1.4.7.apk`](https://github.com/ewceniza9009/1Vault/releases/latest):
+Download [`ZeroEnclave-v1.5.0.apk`](https://github.com/ewceniza9009/1Vault/releases/latest):
 * Production signed Release APK built with full optimization.
 * Powered by the embedded Go cryptographic & `1VBLOB` streaming core compiled via Android NDK CGO.
 * Supports Android 8.0+ (`arm64-v8a` and `x86_64`).
@@ -315,5 +331,5 @@ go build -buildmode=c-shared -ldflags="-s -w" -o "android/app/src/main/jniLibs/x
 
 # 2. Build Release APK with Gradle
 cmd /c "cd android && gradlew.bat assembleRelease"
-# Output artifact: android/app/build/outputs/apk/release/ZeroEnclave-v1.4.7.apk
+# Output artifact: android/app/build/outputs/apk/release/ZeroEnclave-v1.5.0.apk
 ```
