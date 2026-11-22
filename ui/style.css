@@ -2902,11 +2902,44 @@ mark.md-highlight {
 }
 
 .md-spoiler.revealed {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  vertical-align: baseline;
+  max-width: 100%;
+  word-break: break-all;
   color: #fca5a5;
   text-shadow: none;
   background: rgba(239, 68, 68, 0.12);
   border: 1px solid rgba(239, 68, 68, 0.35);
   user-select: text;
+}
+
+.md-spoiler-copy-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  opacity: 0.85;
+  transition: opacity 0.12s ease, background 0.12s ease;
+}
+
+.md-spoiler.revealed .md-spoiler-copy-btn {
+  display: inline-flex;
+}
+
+.md-spoiler-copy-btn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* Fenced Code Blocks */
@@ -6208,7 +6241,7 @@ button.combobox-chevron-btn.combobox-chevron-icon:hover {
 }
 
 /* =========================================================================
-   V1.5.0 SIDEBAR REDESIGN & CONFIGS / .ENV STUDIO
+   SIDEBAR REDESIGN & CONFIGS / .ENV STUDIO
    ========================================================================= */
 
 .app-sidebar {
@@ -6592,3 +6625,57 @@ button.combobox-chevron-btn.combobox-chevron-icon:hover {
 [data-surface="light"] .env-pill-staging { color: #B45309 !important; }
 [data-surface="light"] .env-pill-prod { color: #B91C1C !important; }
 [data-surface="light"] .env-pill-format { color: #0369A1 !important; }
+
+.md-autohide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(15, 23, 42, 0.72);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.md-autohide-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+.md-autohide-btn.active {
+  background: rgba(16, 185, 129, 0.14);
+  border-color: rgba(16, 185, 129, 0.38);
+  color: #34d399;
+}
+
+[data-surface="light"] .md-autohide-btn {
+  background: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  color: #475569 !important;
+}
+
+[data-surface="light"] .md-autohide-btn.active {
+  background: #ECFDF5 !important;
+  border-color: #6EE7B7 !important;
+  color: #047857 !important;
+}
+
+[data-surface="light"] .md-spoiler.revealed {
+  color: #B91C1C !important;
+  background: #FEE2E2 !important;
+  border-color: #FCA5A5 !important;
+}
+
+[data-surface="light"] .md-spoiler-copy-btn {
+  background: rgba(185, 28, 28, 0.12) !important;
+  color: #991B1B !important;
+}
+
+[data-surface="light"] .md-spoiler-copy-btn:hover {
+  background: rgba(185, 28, 28, 0.22) !important;
+}

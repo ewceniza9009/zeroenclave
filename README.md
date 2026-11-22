@@ -1,9 +1,19 @@
 
 # ZeroEnclave — Zero-Knowledge Password & Media Enclave (Windows & Android)
 
-**ZeroEnclave** (`v1.5.0`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
+**ZeroEnclave** (`v1.5.1`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
 
-## What's New in v1.5.0
+## What's New in v1.5.1
+
+* **Clean Secure Notes Copy & Spoiler Controls:**
+  * Copying notes in **Rendered View** automatically strips `||...||` spoiler markers outside code spans/fenced blocks so connection strings and notes paste cleanly without `||` symbols; switching to **Raw Markdown** copies verbatim source.
+  * Added **Reveal Secrets / Hide Secrets** header toggle (`#btnToggleNoteSecrets`) and a 1-click Copy button inside revealed secret pills, plus a fix for standalone lines beginning with `||...||`.
+* **Non-Destructive Auto-Hide Secrets:**
+  * Stored Secure Notes remain unmodified plaintext while passwords, connection strings (`Password=...`, ADO.NET/JDBC, `user:pass@` URIs), JSON/env secret keys, JWTs, API tokens, PEM private keys, item passwords, and standalone high-entropy password lines are automatically redacted on render across detail view, Markdown preview, fenced code blocks, and History snapshots.
+  * Added an **Auto-Hide: ON / OFF** toggle (`#btnToggleAutoHideSecrets`) in the Markdown editor header and non-intrusive toast feedback when secrets are pasted.
+
+<details>
+<summary>Previous release: v1.5.0</summary>
 
 * **Configs & `.env` / `appsettings.json` Studio:**
   * Added a dedicated **Configs & `.env`** vault category (`env_config`) with metadata for **Format** (`.env`, `appsettings.json`, JSON, YAML, TOML, XML, INI), **Environment** (`local`, `dev`, `staging`, `prod`), and **Target Filename**.
@@ -13,6 +23,8 @@
   * Windows installer automatically registers the ZeroEnclave install folder in User `PATH` so `ZeroEnclave` works from any terminal.
 * **High-UX Sidebar Redesign:**
   * Pinned 2×2 Quick Tiles (`All Items`, `Favorites`, `Watchtower`, `Trash`), streamlined **Vault** category list, collapsible **Folders & Tags** pill cloud, and docked footer with `Drive Z:`, `Sync`, compact utility bar, and `Lock`.
+
+</details>
 
 <details>
 <summary>Previous release: v1.4.7</summary>
@@ -271,12 +283,12 @@ ZeroEnclave gives you two flexible options for sync relaying:
 
 ---
 
-## Downloads & Installation (v1.5.0)
+## Downloads & Installation (v1.5.1)
 
 Pre-built binaries and packages are available under [Releases](https://github.com/ewceniza9009/1Vault/releases):
 
 ### 1. Windows Installer (Recommended)
-Download [`ZeroEnclave-Setup-v1.5.0.exe`](https://github.com/ewceniza9009/1Vault/releases/latest):
+Download [`ZeroEnclave-Setup-v1.5.1.exe`](https://github.com/ewceniza9009/1Vault/releases/latest):
 * **One-Click Install:** Installs without requiring Administrator privileges and preserves existing vault data seamlessly.
 * **CLI PATH Integration:** Automatically registers the install directory in User `PATH` so `ZeroEnclave run` / `pull` / `push` / `list` work from any terminal.
 * **Shortcuts:** Automatically creates Start Menu and Desktop shortcuts (`ZeroEnclave`) with the hexagonal ZeroEnclave emblem.
@@ -286,7 +298,7 @@ Download [`ZeroEnclave-Setup-v1.5.0.exe`](https://github.com/ewceniza9009/1Vault
 Download [`ZeroEnclave.exe`](https://github.com/ewceniza9009/1Vault/releases/latest) to run directly without installing.
 
 ### 3. Android Application (APK)
-Download [`ZeroEnclave-v1.5.0.apk`](https://github.com/ewceniza9009/1Vault/releases/latest):
+Download [`ZeroEnclave-v1.5.1.apk`](https://github.com/ewceniza9009/1Vault/releases/latest):
 * Production signed Release APK built with full optimization.
 * Powered by the embedded Go cryptographic & `1VBLOB` streaming core compiled via Android NDK CGO.
 * Supports Android 8.0+ (`arm64-v8a` and `x86_64`).
@@ -331,5 +343,5 @@ go build -buildmode=c-shared -ldflags="-s -w" -o "android/app/src/main/jniLibs/x
 
 # 2. Build Release APK with Gradle
 cmd /c "cd android && gradlew.bat assembleRelease"
-# Output artifact: android/app/build/outputs/apk/release/ZeroEnclave-v1.5.0.apk
+# Output artifact: android/app/build/outputs/apk/release/ZeroEnclave-v1.5.1.apk
 ```
