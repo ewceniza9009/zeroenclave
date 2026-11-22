@@ -1,8 +1,21 @@
 # ZeroEnclave — Zero-Knowledge Password & Media Enclave (Windows & Android)
 
-**ZeroEnclave** (`v1.4.6`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
+**ZeroEnclave** (`v1.4.7`) is a standalone, local-first, zero-knowledge password manager, encrypted media vault, and cross-device sync enclave engineered in pure **Go**. It delivers full cross-platform support for **Windows Desktop** and **Android**.
 
-## What's New in v1.4.6
+## What's New in v1.4.7
+
+* **Security & Storage Hardening:**
+  * Replaced wildcard CORS (`Access-Control-Allow-Origin: *`) with strict loopback (`localhost` / `127.0.0.1`) and browser-extension Origin + `Sec-Fetch-Site` enforcement, constant-time `X-Session-Token` validation, and authenticated `/api/reset`.
+  * Encrypted the locked-vault extension staging inbox (`staged_inbox.json`) via Windows DPAPI (`ProtectLocalData` / `UnprotectLocalData`) with transparent legacy migration.
+  * Added crash-safe `fsync` + rolling `.bak` encrypted vault backup before atomic `os.Rename`.
+  * Fixed `GenerateSecretKey()` entropy truncation so new vaults receive a full 128-bit (32-hex-character) Secret Key.
+* **Slimmer Android APK (~45% Smaller):**
+  * Removed duplicate unused native `.so` copies (`lib1vault.so`) so the signed release APK ships only `libonevault.so` per ABI (`arm64-v8a` & `x86_64`).
+* **Browser Extension & Notes Polish:**
+  * Native desktop launch bridge (`zeroenclave://open` + `/api/app/show` + `launcher.html`), focus/hover-only zero-ghost `Z` badges, strict auth-field filtering (no badges on API key/model/search inputs), inline dropdown unlock, and fixed multiline/quoted Secure Notes copy.
+
+<details>
+<summary>Previous release: v1.4.6</summary>
 
 * **Native Windows System Tray & Background Enclave:**
   * Closing the desktop window now minimizes cleanly to the Windows System Tray, keeping the embedded E2EE sync relay (`:8443`), LAN discovery (`:8444`), and browser extension companion (`:51892`) alive in the background.
@@ -16,6 +29,8 @@
 * **Browser Extension Smart Save, Deduplication & Locked-Vault Unlock:**
   * Detects whether submitted login/registration credentials are already saved in ZeroEnclave (`POST /api/extension/check`) — suppresses duplicate save prompts and switches to **Update Password** when an existing account's password changes.
   * Added inline **Unlock & Save** in the in-page banner, a Master Password / Biometric unlock card inside the extension popup, and an offline `chrome.storage.local` queue that auto-encrypts into the vault as soon as ZeroEnclave unlocks.
+
+</details>
 
 <details>
 <summary>Previous release: v1.4.5</summary>
@@ -241,12 +256,12 @@ ZeroEnclave gives you two flexible options for sync relaying:
 
 ---
 
-## Downloads & Installation (v1.4.6)
+## Downloads & Installation (v1.4.7)
 
 Pre-built binaries and packages are available under [Releases](https://github.com/ewceniza9009/1Vault/releases):
 
 ### 1. Windows Installer (Recommended)
-Download [`ZeroEnclave-Setup-v1.4.6.exe`](https://github.com/ewceniza9009/1Vault/releases/latest):
+Download [`ZeroEnclave-Setup-v1.4.7.exe`](https://github.com/ewceniza9009/1Vault/releases/latest):
 * **One-Click Install:** Installs without requiring Administrator privileges and preserves existing vault data seamlessly.
 * **Shortcuts:** Automatically creates Start Menu and Desktop shortcuts (`ZeroEnclave`) with the hexagonal ZeroEnclave emblem.
 * **Clean Uninstall:** Registered in Windows **Settings > Apps & Features**.
@@ -255,7 +270,7 @@ Download [`ZeroEnclave-Setup-v1.4.6.exe`](https://github.com/ewceniza9009/1Vault
 Download [`ZeroEnclave.exe`](https://github.com/ewceniza9009/1Vault/releases/latest) to run directly without installing.
 
 ### 3. Android Application (APK)
-Download [`ZeroEnclave-v1.4.6.apk`](https://github.com/ewceniza9009/1Vault/releases/latest):
+Download [`ZeroEnclave-v1.4.7.apk`](https://github.com/ewceniza9009/1Vault/releases/latest):
 * Production signed Release APK built with full optimization.
 * Powered by the embedded Go cryptographic & `1VBLOB` streaming core compiled via Android NDK CGO.
 * Supports Android 8.0+ (`arm64-v8a` and `x86_64`).
@@ -292,15 +307,13 @@ $ndkBin = "$env:LOCALAPPDATA\Android\Sdk\ndk\27.0.12077973\toolchains\llvm\prebu
 $env:CC = "$ndkBin\aarch64-linux-android28-clang.cmd"
 $env:GOOS = "android"; $env:GOARCH = "arm64"; $env:CGO_ENABLED = "1"
 go build -buildmode=c-shared -ldflags="-s -w" -o "android/app/src/main/jniLibs/arm64-v8a/libonevault.so" ./cmd/mobile
-Copy-Item "android/app/src/main/jniLibs/arm64-v8a/libonevault.so" "android/app/src/main/jniLibs/arm64-v8a/lib1vault.so" -Force
 
 # x86_64
 $env:CC = "$ndkBin\x86_64-linux-android28-clang.cmd"
 $env:GOOS = "android"; $env:GOARCH = "amd64"; $env:CGO_ENABLED = "1"
 go build -buildmode=c-shared -ldflags="-s -w" -o "android/app/src/main/jniLibs/x86_64/libonevault.so" ./cmd/mobile
-Copy-Item "android/app/src/main/jniLibs/x86_64/libonevault.so" "android/app/src/main/jniLibs/x86_64/lib1vault.so" -Force
 
 # 2. Build Release APK with Gradle
 cmd /c "cd android && gradlew.bat assembleRelease"
-# Output artifact: android/app/build/outputs/apk/release/ZeroEnclave-v1.4.6.apk
+# Output artifact: android/app/build/outputs/apk/release/ZeroEnclave-v1.4.7.apk
 ```

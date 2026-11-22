@@ -37,15 +37,15 @@ func GenerateRandomBytes(n int) ([]byte, error) {
 	return b, nil
 }
 
-// GenerateSecretKey creates a 1Password-style 128-bit Secret Key (e.g., A3-XXXXXX-XXXXXX-XXXXXX-XXXXXX)
+// GenerateSecretKey creates a 1Password-style 128-bit Secret Key (32 hex chars = full 128 bits)
 func GenerateSecretKey() (string, error) {
 	b, err := GenerateRandomBytes(16)
 	if err != nil {
 		return "", err
 	}
-	// Format into readable grouped chunks
+	// Format into readable grouped chunks preserving all 128 bits of entropy
 	hexStr := fmt.Sprintf("%X", b)
-	return fmt.Sprintf("A3-%s-%s-%s-%s", hexStr[0:6], hexStr[6:12], hexStr[12:18], hexStr[18:24]), nil
+	return fmt.Sprintf("A3-%s-%s-%s-%s", hexStr[0:8], hexStr[8:16], hexStr[16:24], hexStr[24:32]), nil
 }
 
 // DeriveKey computes a 256-bit symmetric encryption key using Argon2id
